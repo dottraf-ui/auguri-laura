@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ff5a7a">
+<title>Buon compleanno, Laura</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Zen+Maru+Gothic:wght@500;700;900&family=Nunito:ital,wght@0,400;0,600;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{--sky1:#fff1d6;--sky2:#ffc9d6;--sky3:#9fd8ff;--sky4:#5fb5ff;--red:#e8324f;--red2:#ff5a7a;--ink:#2a2140;--white:#fff;--cream:#fff8ee;--pink:#ffb3c7;--pink2:#ff8fb0;--gold:#ffc83d;--green:#7cd47a;--blue:#3d8bff}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;overflow:hidden;font-family:'Nunito',system-ui,sans-serif;color:var(--ink);background:var(--sky3)}
+  button{font:inherit}
+
+  /* ---------- SKY ---------- */
+  #sky{position:fixed;inset:0;z-index:0;background:linear-gradient(180deg,var(--sky4) 0%,var(--sky3) 38%,var(--sky2) 72%,var(--sky1) 100%)}
+  .sunbig{position:absolute;left:50%;top:18%;width:min(46vmin,300px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 40% 35%,#ff7b8f,var(--red) 75%);
+    transform:translate(-50%,-50%) scale(0);animation:sunpop 1.3s .2s cubic-bezier(.3,1.6,.4,1) forwards;box-shadow:0 0 0 18px rgba(255,255,255,.22),0 0 0 40px rgba(255,255,255,.12),0 30px 60px rgba(232,50,79,.25)}
+  @keyframes sunpop{to{transform:translate(-50%,-50%) scale(1)}}
+  .rays{position:absolute;left:50%;top:18%;width:min(140vmin,900px);aspect-ratio:1;transform:translate(-50%,-50%);opacity:.35;
+    background:repeating-conic-gradient(from 0deg,rgba(255,255,255,.9) 0 6deg,transparent 6deg 15deg);border-radius:50%;
+    -webkit-mask:radial-gradient(circle,transparent 18%,#000 19%,#000 48%,transparent 50%);mask:radial-gradient(circle,transparent 18%,#000 19%,#000 48%,transparent 50%);
+    animation:spin 60s linear infinite}
+  @keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+  .cloud{position:absolute;width:160px;height:56px;background:#fff;border-radius:60px;opacity:.95;filter:drop-shadow(0 8px 14px rgba(70,120,200,.18))}
+  .cloud:before,.cloud:after{content:"";position:absolute;background:#fff;border-radius:50%}
+  .cloud:before{width:70px;height:70px;left:22px;top:-32px}.cloud:after{width:52px;height:52px;left:78px;top:-20px}
+  .c1{left:-180px;top:12%;animation:drift 38s linear infinite}.c2{left:-200px;top:30%;transform:scale(.7);animation:drift 52s 8s linear infinite}
+  .c3{left:-180px;top:7%;transform:scale(.5);animation:drift 44s 20s linear infinite}
+  @keyframes drift{to{transform:translateX(calc(100vw + 400px))}}
+  .ground{position:absolute;left:0;right:0;bottom:0;height:42vh;pointer-events:none}
+  .ground svg{width:100%;height:100%;display:block}
+  canvas#fx{position:fixed;inset:0;z-index:2;pointer-events:none}
+
+  /* ---------- SCREENS ---------- */
+  .screen{position:fixed;inset:0;z-index:3;display:grid;place-items:center;padding:env(safe-area-inset-top) 18px env(safe-area-inset-bottom);opacity:0;visibility:hidden;transition:opacity .8s,visibility 0s .8s}
+  .screen.on{opacity:1;visibility:visible;transition:opacity .8s}
+  .wrap{width:100%;max-width:720px;text-align:center}
+
+  /* screen 1 */
+  .jp{font-family:'Zen Maru Gothic',sans-serif;font-weight:900;color:var(--white);font-size:clamp(28px,8.5vw,64px);letter-spacing:.04em;line-height:1.15;
+    text-shadow:0 3px 0 rgba(200,30,60,.35),0 10px 30px rgba(232,50,79,.35);opacity:0;animation:pop .9s 1s cubic-bezier(.3,1.5,.4,1) forwards}
+  .jp span{display:inline-block;animation:bounce 2.6s ease-in-out infinite}
+  @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  .it{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:clamp(20px,5vw,34px);color:var(--ink);margin-top:6px;opacity:0;animation:pop .9s 1.5s cubic-bezier(.3,1.5,.4,1) forwards}
+  .name{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:clamp(76px,22vw,170px);line-height:.95;color:var(--white);margin:10px 0 0;
+    -webkit-text-stroke:2px rgba(232,50,79,.25);text-shadow:0 6px 0 var(--red),0 18px 40px rgba(232,50,79,.35);opacity:0;animation:pop 1s 2s cubic-bezier(.3,1.5,.4,1) forwards}
+  .age{display:inline-flex;align-items:center;gap:10px;margin-top:14px;background:var(--white);border-radius:999px;padding:8px 20px 8px 10px;box-shadow:0 10px 30px rgba(60,80,160,.18);opacity:0;animation:pop .9s 2.6s cubic-bezier(.3,1.5,.4,1) forwards}
+  .age b{display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:var(--red);color:#fff;font-family:'Baloo 2',sans-serif;font-size:24px;font-weight:800}
+  .age span{font-weight:800;letter-spacing:.14em;text-transform:uppercase;font-size:13px;color:var(--ink)}
+  .gift{margin-top:30px;opacity:0;animation:pop .9s 3.3s cubic-bezier(.3,1.5,.4,1) forwards}
+  .gift .jp2{font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:clamp(20px,5.4vw,36px);color:var(--red);letter-spacing:.06em}
+  .gift .it2{font-style:italic;font-size:clamp(14px,3.4vw,18px);color:#5a4e73;margin-top:4px}
+  .btn{margin-top:22px;border:0;cursor:pointer;background:var(--red);color:#fff;font-family:'Baloo 2',sans-serif;font-weight:800;font-size:clamp(18px,4.6vw,24px);letter-spacing:.04em;
+    padding:16px 34px;border-radius:999px;box-shadow:0 10px 0 #b81f3a,0 22px 40px rgba(232,50,79,.4);transform:translateY(0);transition:transform .12s,box-shadow .12s;
+    opacity:0;animation:pop .9s 3.9s cubic-bezier(.3,1.5,.4,1) forwards,wiggle 2.2s 5s ease-in-out infinite}
+  .btn:active{transform:translateY(6px);box-shadow:0 4px 0 #b81f3a,0 10px 20px rgba(232,50,79,.4)}
+  .btn i{display:inline-block;margin-left:10px;font-style:normal;transform:rotate(-10deg)}
+  @keyframes wiggle{0%,80%,100%{rotate:0deg}85%{rotate:-3deg}90%{rotate:3deg}95%{rotate:-2deg}}
+  @keyframes pop{from{opacity:0;transform:scale(.6) translateY(20px)}to{opacity:1;transform:none}}
+
+  /* screen 2 */
+  #s2 .wrap{display:grid;gap:14px;justify-items:center;padding-bottom:10vh}
+  .scrollarea{position:fixed;inset:0;overflow-y:auto;overflow-x:hidden;display:grid;place-items:center;padding:20px 16px 60px}
+  .plane{position:fixed;left:-20vw;top:22vh;width:min(26vw,170px);z-index:4;filter:drop-shadow(0 14px 20px rgba(40,60,120,.3));opacity:0}
+  #s2.on .plane{animation:fly 3.6s .2s cubic-bezier(.45,.05,.3,1) forwards}
+  @keyframes fly{0%{left:-25vw;top:30vh;opacity:1;transform:rotate(-8deg) scale(.7)}60%{top:14vh;transform:rotate(-14deg) scale(1)}100%{left:112vw;top:6vh;opacity:1;transform:rotate(-10deg) scale(.9)}}
+  .trail{position:fixed;left:0;right:0;top:0;height:40vh;z-index:3;pointer-events:none;opacity:0}
+  #s2.on .trail{animation:show .3s .2s forwards}
+  .trail path{fill:none;stroke:#fff;stroke-width:5;stroke-dasharray:14 16;stroke-linecap:round;stroke-dashoffset:2000;opacity:.9}
+  #s2.on .trail path{animation:dash 3.6s .2s cubic-bezier(.45,.05,.3,1) forwards}
+  @keyframes dash{to{stroke-dashoffset:0}}
+  @keyframes show{to{opacity:1}}
+
+  .head{font-family:'Baloo 2',sans-serif;font-weight:800;color:#fff;font-size:clamp(34px,9vw,70px);line-height:1;text-shadow:0 5px 0 var(--red),0 16px 36px rgba(232,50,79,.35);opacity:0}
+  .head small{display:block;font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:clamp(16px,4.2vw,26px);color:var(--red);text-shadow:none;letter-spacing:.14em;margin-top:6px}
+  #s2.on .head{animation:pop .9s 2.6s cubic-bezier(.3,1.5,.4,1) forwards}
+
+  .ticket{width:100%;max-width:560px;background:var(--white);border-radius:18px;box-shadow:0 24px 50px rgba(50,60,140,.22);overflow:hidden;text-align:left;position:relative;opacity:0;transform:translateY(60px) rotate(-3deg)}
+  .ticket.t2{transform:translateY(60px) rotate(3deg)}
+  #s2.on .t1{animation:slidein 1s 3.6s cubic-bezier(.3,1.4,.4,1) forwards}
+  #s2.on .t2{animation:slidein 1s 4.3s cubic-bezier(.3,1.4,.4,1) forwards}
+  @keyframes slidein{to{opacity:1;transform:none}}
+  .ticket .top{background:var(--red);color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;font-weight:800;letter-spacing:.18em;text-transform:uppercase;font-size:11px}
+  .ticket .top b{font-family:'Zen Maru Gothic',sans-serif;font-size:15px;letter-spacing:.2em}
+  .ticket .body{padding:18px 20px 16px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px}
+  .code{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:clamp(40px,11vw,62px);line-height:1;color:var(--ink)}
+  .city{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#7a6f92;margin-top:2px}
+  .city small{display:block;font-weight:600;letter-spacing:0;text-transform:none;color:#a79dbb}
+  .to{text-align:right}
+  .mid{display:grid;justify-items:center;gap:4px;color:var(--red)}
+  .mid svg{width:34px;height:34px;fill:var(--red)}
+  .mid .d{width:70px;border-top:2px dashed #e4dcef}
+  .ticket .meta{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:12px 20px 18px;border-top:2px dashed #ece6f5;position:relative}
+  .ticket .meta:before,.ticket .meta:after{content:"";position:absolute;top:-12px;width:24px;height:24px;border-radius:50%;background:var(--sky2)}
+  .ticket .meta:before{left:-12px}.ticket .meta:after{right:-12px}
+  .meta span{display:block;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#a79dbb;font-weight:800}
+  .meta b{display:block;font-size:clamp(14px,3.6vw,18px);font-weight:800;color:var(--ink);margin-top:2px}
+  .meta b.r{color:var(--red)}
+  .stamp{position:absolute;right:16px;top:52px;border:3px solid var(--green);color:var(--green);border-radius:8px;padding:4px 10px;font-weight:800;letter-spacing:.2em;font-size:11px;text-transform:uppercase;transform:rotate(-14deg) scale(2);opacity:0}
+  #s2.on .t1 .stamp{animation:stamp .5s 5.2s cubic-bezier(.3,1.6,.5,1) forwards}
+  #s2.on .t2 .stamp{animation:stamp .5s 5.6s cubic-bezier(.3,1.6,.5,1) forwards}
+  @keyframes stamp{to{transform:rotate(-14deg) scale(1);opacity:.9}}
+
+  .icons{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:6px;opacity:0}
+  #s2.on .icons{animation:pop .9s 5.9s cubic-bezier(.3,1.5,.4,1) forwards}
+  .icons div{background:#fff;border-radius:16px;padding:10px 12px;box-shadow:0 10px 24px rgba(50,60,140,.15);display:grid;justify-items:center;gap:4px;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#7a6f92;min-width:76px}
+  .icons svg{width:34px;height:34px}
+  .msg{background:rgba(255,255,255,.75);backdrop-filter:blur(6px);border-radius:18px;padding:18px 22px;max-width:560px;font-size:clamp(16px,4.2vw,20px);line-height:1.5;font-weight:600;color:var(--ink);opacity:0}
+  #s2.on .msg{animation:pop .9s 6.6s cubic-bezier(.3,1.5,.4,1) forwards}
+  .msg b{color:var(--red)}
+  .sign{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:clamp(26px,6vw,36px);color:var(--red);opacity:0}
+  #s2.on .sign{animation:pop .9s 7.3s cubic-bezier(.3,1.5,.4,1) forwards}
+  .again{border:2px solid var(--red);background:transparent;color:var(--red);font-weight:800;border-radius:999px;padding:10px 20px;cursor:pointer;opacity:0;letter-spacing:.1em;text-transform:uppercase;font-size:12px}
+  #s2.on .again{animation:pop .9s 8s forwards}
+
+  /* koinobori */
+  .koi{position:fixed;right:-4px;top:38vh;z-index:1;width:min(34vw,220px);transform-origin:left center;animation:wave 3s ease-in-out infinite}
+  @keyframes wave{0%,100%{transform:skewY(2deg)}50%{transform:skewY(-2deg)}}
+  @media (max-width:560px){.ticket .meta{grid-template-columns:repeat(2,1fr)}.koi{top:auto;bottom:30vh;width:38vw}}
+  @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-delay:0s!important}}
+</style>
+</head>
+<body>
+
+<div id="sky">
+  <div class="rays"></div>
+  <div class="sunbig"></div>
+  <div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div>
+  <svg class="koi" viewBox="0 0 220 70" aria-hidden="true">
+    <path d="M0 35 C40 0 120 0 215 30 L190 35 L215 40 C120 70 40 70 0 35Z" fill="#ff8fb0"/>
+    <path d="M0 35 C40 0 120 0 215 30 L190 35 L215 40 C120 70 40 70 0 35Z" fill="url(#sc)"/>
+    <defs><pattern id="sc" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="11" cy="11" r="8" fill="none" stroke="#fff" stroke-width="3"/></pattern></defs>
+    <circle cx="36" cy="30" r="8" fill="#fff"/><circle cx="38" cy="30" r="4" fill="#2a2140"/>
+    <path d="M0 35 C10 20 20 20 30 10 M0 35 C10 50 20 50 30 60" stroke="#fff" stroke-width="4" fill="none"/>
+  </svg>
+  <div class="ground" aria-hidden="true">
+    <svg viewBox="0 0 1440 420" preserveAspectRatio="xMidYMax slice">
+      <defs>
+        <linearGradient id="fj" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8aa7ff"/><stop offset="1" stop-color="#6a7fe0"/></linearGradient>
+      </defs>
+      <!-- Fuji -->
+      <path d="M260 420 L700 90 Q720 75 740 90 L1180 420Z" fill="url(#fj)"/>
+      <path d="M660 122 L700 90 Q720 75 740 90 L780 122 L762 130 L745 118 L728 134 L712 120 L696 136 L680 122 L666 132Z" fill="#fff"/>
+      <!-- hills -->
+      <path d="M0 330 C200 270 380 300 560 260 C740 220 900 280 1100 240 C1250 210 1350 250 1440 230 L1440 420 L0 420Z" fill="#9be38f"/>
+      <path d="M0 370 C220 330 400 360 600 330 C820 300 1000 350 1200 320 C1320 300 1400 320 1440 310 L1440 420 L0 420Z" fill="#7cd47a"/>
+      <!-- sakura trees -->
+      <g>
+        <rect x="150" y="300" width="14" height="70" rx="5" fill="#8a5a3c"/><circle cx="157" cy="280" r="52" fill="#ffb3c7"/><circle cx="125" cy="300" r="34" fill="#ffc3d3"/><circle cx="192" cy="296" r="36" fill="#ff9fbb"/>
+        <rect x="1240" y="290" width="14" height="70" rx="5" fill="#8a5a3c"/><circle cx="1247" cy="268" r="56" fill="#ffb3c7"/><circle cx="1212" cy="292" r="36" fill="#ff9fbb"/><circle cx="1284" cy="288" r="38" fill="#ffc3d3"/>
+        <rect x="420" y="330" width="10" height="50" rx="4" fill="#8a5a3c"/><circle cx="425" cy="318" r="36" fill="#ffc3d3"/><circle cx="400" cy="332" r="24" fill="#ff9fbb"/>
+        <rect x="1010" y="335" width="10" height="50" rx="4" fill="#8a5a3c"/><circle cx="1015" cy="322" r="36" fill="#ffb3c7"/><circle cx="1042" cy="336" r="24" fill="#ffc3d3"/>
+      </g>
+      <!-- torii -->
+      <g fill="#e8324f" transform="translate(620,300)">
+        <path d="M-6 0 Q100 -16 206 0 L206 16 Q100 2 -6 16Z"/><rect x="18" y="30" width="164" height="10" rx="2"/>
+        <rect x="40" y="16" width="14" height="110"/><rect x="146" y="16" width="14" height="110"/><rect x="92" y="14" width="16" height="26"/>
+      </g>
+      <!-- lanterns -->
+      <g>
+        <g transform="translate(320,250)"><rect x="-2" y="-30" width="4" height="30" fill="#8a5a3c"/><rect x="-18" y="0" width="36" height="46" rx="12" fill="#ffc83d"/><rect x="-18" y="12" width="36" height="4" fill="#e8324f" opacity=".5"/><rect x="-18" y="28" width="36" height="4" fill="#e8324f" opacity=".5"/></g>
+        <g transform="translate(1110,240)"><rect x="-2" y="-30" width="4" height="30" fill="#8a5a3c"/><rect x="-18" y="0" width="36" height="46" rx="12" fill="#e8324f"/><rect x="-18" y="12" width="36" height="4" fill="#fff" opacity=".6"/><rect x="-18" y="28" width="36" height="4" fill="#fff" opacity=".6"/></g>
+      </g>
+    </svg>
+  </div>
+</div>
+<canvas id="fx"></canvas>
+
+<!-- SCREEN 1 -->
+<section class="screen on" id="s1">
+  <div class="wrap">
+    <div class="jp"><span style="animation-delay:0s">お</span><span style="animation-delay:.1s">誕</span><span style="animation-delay:.2s">生</span><span style="animation-delay:.3s">日</span><span style="animation-delay:.4s">お</span><span style="animation-delay:.5s">め</span><span style="animation-delay:.6s">で</span><span style="animation-delay:.7s">と</span><span style="animation-delay:.8s">う</span><span style="animation-delay:.9s">！</span></div>
+    <div class="it">Tanti auguri!</div>
+    <h1 class="name">Laura</h1>
+    <div class="age"><b>38</b><span>anni · 24 novembre</span></div>
+    <div class="gift">
+      <div class="jp2">この贈り物はあなたへ</div>
+      <div class="it2">Questo dono è per te</div>
+      <button class="btn" id="open">Scopri il regalo <i>✈️</i></button>
+    </div>
+  </div>
+</section>
+
+<!-- SCREEN 2 -->
+<section class="screen" id="s2">
+  <svg class="trail" viewBox="0 0 1000 400" preserveAspectRatio="none" aria-hidden="true"><path d="M-50 330 C200 330 350 260 500 180 C650 100 800 70 1050 50"/></svg>
+  <svg class="plane" viewBox="0 0 200 110" aria-hidden="true">
+    <path d="M10 60 L150 44 Q190 40 192 54 Q190 66 150 70 L10 72 Q0 66 10 60Z" fill="#fff" stroke="#cfd8f5" stroke-width="3"/>
+    <path d="M60 58 L30 20 L52 18 L96 54Z" fill="#e8324f"/><path d="M70 70 L44 100 L66 100 L104 72Z" fill="#e8324f"/>
+    <path d="M150 48 L170 22 L186 22 L172 50Z" fill="#e8324f"/>
+    <circle cx="120" cy="56" r="5" fill="#9fd8ff"/><circle cx="104" cy="57" r="5" fill="#9fd8ff"/><circle cx="88" cy="58" r="5" fill="#9fd8ff"/>
+    <circle cx="170" cy="55" r="7" fill="#9fd8ff"/>
+  </svg>
+  <div class="scrollarea">
+    <div class="wrap">
+      <div class="head">Si vola in Giappone!<small>東京へ行こう！ · Andiamo a Tokyo!</small></div>
+
+      <div class="ticket t1">
+        <div class="top"><span>Boarding pass · Andata</span><b>搭乗券</b></div>
+        <div class="body">
+          <div><div class="code">FCO</div><div class="city">Roma<small>Fiumicino</small></div></div>
+          <div class="mid"><div class="d"></div><svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg><div class="d"></div></div>
+          <div class="to"><div class="code">HND</div><div class="city">Tokyo<small>Haneda</small></div></div>
+        </div>
+        <div class="meta">
+          <div><span>Data</span><b class="r">24 MAR 2027</b></div>
+          <div><span>Passeggera</span><b>Laura Di Vito</b></div>
+          <div><span>Posto</span><b>Accanto a me</b></div>
+          <div><span>Classe</span><b>Hanami 🌸</b></div>
+        </div>
+        <div class="stamp">Confermato</div>
+      </div>
+
+      <div class="ticket t2">
+        <div class="top"><span>Boarding pass · Ritorno</span><b>搭乗券</b></div>
+        <div class="body">
+          <div><div class="code">HND</div><div class="city">Tokyo<small>Haneda</small></div></div>
+          <div class="mid"><div class="d"></div><svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg><div class="d"></div></div>
+          <div class="to"><div class="code">FCO</div><div class="city">Roma<small>Fiumicino</small></div></div>
+        </div>
+        <div class="meta">
+          <div><span>Data</span><b class="r">5 APR 2027</b></div>
+          <div><span>Durata</span><b>13 giorni</b></div>
+          <div><span>Bagaglio</span><b>Pieno di ricordi</b></div>
+          <div><span>Stagione</span><b>Ciliegi in fiore</b></div>
+        </div>
+        <div class="stamp">Confermato</div>
+      </div>
+
+      <div class="icons">
+        <div><svg viewBox="0 0 40 40"><path d="M4 30 L20 8 L36 30Z" fill="#8aa7ff"/><path d="M14 16 L20 8 L26 16 L23 18 L20 15 L17 18Z" fill="#fff"/></svg>Fuji</div>
+        <div><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="14" fill="#ffb3c7"/><circle cx="20" cy="20" r="5" fill="#ffc83d"/></svg>Sakura</div>
+        <div><svg viewBox="0 0 40 40"><rect x="6" y="18" width="28" height="12" rx="6" fill="#fff" stroke="#2a2140" stroke-width="2"/><rect x="10" y="12" width="20" height="8" rx="3" fill="#e8324f"/></svg>Sushi</div>
+        <div><svg viewBox="0 0 40 40"><rect x="4" y="8" width="32" height="5" rx="2" fill="#e8324f"/><rect x="9" y="15" width="22" height="3" fill="#e8324f"/><rect x="11" y="13" width="4" height="20" fill="#e8324f"/><rect x="25" y="13" width="4" height="20" fill="#e8324f"/></svg>Torii</div>
+        <div><svg viewBox="0 0 40 40"><rect x="10" y="6" width="20" height="28" rx="9" fill="#ffc83d"/><rect x="10" y="14" width="20" height="3" fill="#e8324f" opacity=".6"/><rect x="10" y="23" width="20" height="3" fill="#e8324f" opacity=".6"/></svg>Lanterne</div>
+      </div>
+
+      <div class="msg">Tredici giorni in Giappone, in piena fioritura dei ciliegi: Tokyo, i templi, le lanterne, il sushi vero.<br>Il biglietto è tuo, il posto accanto è <b>mio</b>.<br>Buon compleanno, amore.</div>
+      <div class="sign">— Raffaele</div>
+      <button class="again" id="again">Rivedi dall'inizio</button>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  // ---- confetti + petals ----
+  var c=document.getElementById('fx'),x=c.getContext('2d'),W,H,P=[],dpr=Math.min(devicePixelRatio||1,2);
+  function rs(){W=c.width=innerWidth*dpr;H=c.height=innerHeight*dpr;}addEventListener('resize',rs);rs();
+  var cols=['#e8324f','#ffc83d','#7cd47a','#3d8bff','#ff8fb0','#fff'];
+  function petal(top){return{k:'p',x:Math.random()*W,y:top?-20:Math.random()*H,r:(5+Math.random()*6)*dpr,vx:(0.3+Math.random()*0.5)*dpr,vy:(0.7+Math.random()*1)*dpr,a:Math.random()*6.28,va:(Math.random()-0.5)*0.06,sw:Math.random()*6.28,col:Math.random()<.5?'#ffb3c7':'#ff8fb0',o:.9};}
+  function conf(){var ang=-Math.PI/2+(Math.random()-0.5)*1.6,sp=(9+Math.random()*13)*dpr;return{k:'c',x:W/2,y:H*0.55,vx:Math.cos(ang)*sp,vy:Math.sin(ang)*sp,r:(4+Math.random()*5)*dpr,a:Math.random()*6.28,va:(Math.random()-0.5)*0.4,col:cols[Math.floor(Math.random()*cols.length)],o:1,life:1,rect:Math.random()<.7};}
+  for(var i=0;i<28;i++)P.push(petal(false));
+  function burst(n){for(var i=0;i<n;i++)P.push(conf());}
+  function draw(p){x.save();x.translate(p.x,p.y);x.rotate(p.a);x.globalAlpha=p.o;x.fillStyle=p.col;
+    if(p.k==='p'){x.beginPath();x.moveTo(0,-p.r);x.bezierCurveTo(p.r*.9,-p.r*.6,p.r*.9,p.r*.5,0,p.r);x.bezierCurveTo(-p.r*.9,p.r*.5,-p.r*.9,-p.r*.6,0,-p.r);x.fill();}
+    else if(p.rect){x.fillRect(-p.r,-p.r*.6,p.r*2,p.r*1.2);}else{x.beginPath();x.arc(0,0,p.r,0,6.3);x.fill();}
+    x.restore();}
+  function tick(){x.clearRect(0,0,W,H);
+    for(var i=P.length-1;i>=0;i--){var p=P[i];
+      if(p.k==='p'){p.sw+=0.03;p.x+=p.vx+Math.sin(p.sw)*0.7*dpr;p.y+=p.vy;p.a+=p.va;if(p.y>H+30||p.x>W+30)P[i]=petal(true);}
+      else{p.vy+=0.35*dpr;p.vx*=0.985;p.x+=p.vx;p.y+=p.vy;p.a+=p.va;p.life-=0.008;p.o=Math.max(0,p.life);if(p.life<=0||p.y>H+40){P.splice(i,1);continue;}}
+      draw(p);}
+    requestAnimationFrame(tick);}
+  tick();
+  setTimeout(function(){burst(140)},2000);
+
+  // ---- flow ----
+  var s1=document.getElementById('s1'),s2=document.getElementById('s2'),opened=false;
+  function open(){if(opened)return;opened=true;burst(220);
+    s1.classList.remove('on');setTimeout(function(){s2.classList.add('on');setTimeout(function(){burst(160)},3800);},500);
+    try{history.replaceState(null,'','#regalo')}catch(e){}}
+  document.getElementById('open').addEventListener('click',open);
+  document.getElementById('again').addEventListener('click',function(){location.href=location.pathname;location.reload();});
+  // deep link from the email button: open straight on the tickets
+  if(location.hash==='#regalo'||/[?&]go=1/.test(location.search)){setTimeout(open,900);}
+})();
+</script>
+</body>
+</html>
